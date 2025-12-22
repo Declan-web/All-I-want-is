@@ -214,7 +214,6 @@
             const todayM = now.getMonth() + 1;
             const todayD = now.getDate();
             const todayH = now.getHours();
-            const todayMin = now.getMinutes();
             
             const key = (m < 10 ? '0'+m : m) + '-' + (d < 10 ? '0'+d : d);
             
@@ -223,10 +222,9 @@
                           (todayM === 1 && m === 1 && d <= todayD) || 
                           (todayM === 1 && m === 12);
             
-            // 2. 12월 23일 전용 특수 조건
+            // 2. 12월 23일 전용 특수 조건 (오전 1시 전까지 제한)
             if (m === 12 && d === 23 && todayM === 12 && todayD === 23) {
-                // 오늘이 23일인데 아직 0시 30분이 안 되었다면
-                if (todayH === 0 && todayMin < 30) {
+                if (todayH < 1) {
                     alert("은행 점검 시간 때문에 선물이 배송 지연됐습니다⋯⋯.");
                     return;
                 }
