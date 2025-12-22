@@ -1,12 +1,4 @@
 <!DOCTYPE html>
-<!--
-Created using JS Bin
-http://jsbin.com
-
-Copyright (c) 2025 by anonymous (http://jsbin.com/muwacawole/1/edit)
-
-Released under the MIT license: http://jsbin.mit-license.org
--->
 <meta name="robots" content="noindex">
 <html lang="ko">
 <head>
@@ -179,7 +171,6 @@ Released under the MIT license: http://jsbin.mit-license.org
             const hh = String(now.getHours()).padStart(2, '0');
             const mm = String(now.getMinutes()).padStart(2, '0');
             const ss = String(now.getSeconds()).padStart(2, '0');
-            // 'is'와 '··' 사이 공백 제거 및 형식 수정
             document.getElementById('live-clock').innerText = `TODAY is······ ${y}.${m}.${d}. ${hh}:${mm}:${ss}`;
         }
         setInterval(updateClock, 1000);
@@ -222,8 +213,25 @@ Released under the MIT license: http://jsbin.mit-license.org
             const now = new Date();
             const todayM = now.getMonth() + 1;
             const todayD = now.getDate();
+            const todayH = now.getHours();
+            const todayMin = now.getMinutes();
+            
             const key = (m < 10 ? '0'+m : m) + '-' + (d < 10 ? '0'+d : d);
-            let canOpen = (todayM === 12 && m === 12 && d <= todayD) || (todayM === 1 && m === 1 && d <= todayD) || (todayM === 1 && m === 12); 
+            
+            // 1. 기본 오픈 가능 날짜 체크
+            let canOpen = (todayM === 12 && m === 12 && d <= todayD) || 
+                          (todayM === 1 && m === 1 && d <= todayD) || 
+                          (todayM === 1 && m === 12);
+            
+            // 2. 12월 23일 전용 특수 조건
+            if (m === 12 && d === 23 && todayM === 12 && todayD === 23) {
+                // 오늘이 23일인데 아직 0시 30분이 안 되었다면
+                if (todayH === 0 && todayMin < 30) {
+                    alert("은행 점검 시간 때문에 선물이 배송 지연됐습니다⋯⋯.");
+                    return;
+                }
+            }
+
             if (canOpen) {
                 document.getElementById('letter-content').innerText = letters[key] || "편지를 작성 중입니다.";
                 document.getElementById('modal').style.display = "block";
