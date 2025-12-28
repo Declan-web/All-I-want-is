@@ -242,6 +242,16 @@
                 }
             }
 
+            // 12월 29일 특수 조건 (오전 1시 전까지 제한)
+if (m === 12 && d === 29 && todayM === 12 && todayD === 29) {
+    if (todayH < 1) {
+        alert("데클렌이 서장님 몰래 선물을 숨길 장소를 물색 중입니다. 한 시간만 못 본 척해 주시죠?");
+        return;
+                }
+            }
+
+
+
             if (canOpen) {
                 document.getElementById('letter-content').innerText = letters[key] || "편지를 작성 중입니다.";
                 document.getElementById('modal').style.display = "block";
